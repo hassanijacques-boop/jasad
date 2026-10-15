@@ -1,7 +1,7 @@
 {
-  "name": "JASAD — bouger chez soi",
+  "name": "JASAD · le corps",
   "short_name": "JASAD",
-  "description": "Application de sport gratuite : programmes à la maison, sans matériel. Sans compte, sans publicité, sans géolocalisation. Tout reste sur ton téléphone.",
+  "description": "Bouger, manger juste et comprendre son corps. Gratuit, sans compte, sans publicité, sans géolocalisation, et utilisable hors connexion.",
   "lang": "fr",
   "start_url": "index.html",
   "scope": "./",

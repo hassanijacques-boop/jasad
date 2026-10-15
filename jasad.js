@@ -309,7 +309,7 @@ function dureeTotale(p){ var t=0; for(var i=0;i<p.seances.length;i++){ t=t+duree
    5. L’ÉTAT DE L’APPLICATION (tout reste sur le téléphone)
    ======================================================================= */
 var CLE = "jasad.v1";
-var etat = { prenom:"", contraintes:[], programme:null, faites:[], biblioGr:"all" };
+var etat = { prenom:"", contraintes:[], programme:null, faites:[], biblioGr:"all", habitudes:{} };
 
 function charger(){
   try{
@@ -319,6 +319,7 @@ function charger(){
       if(o.contraintes && o.contraintes.length!==undefined){ etat.contraintes=o.contraintes; }
       if(o.programme){ etat.programme=o.programme; }
       if(o.faites && o.faites.length!==undefined){ etat.faites=o.faites; }
+      if(o.habitudes && typeof o.habitudes==="object"){ etat.habitudes=o.habitudes; }
     } }
   }catch(e){}
 }
@@ -404,10 +405,11 @@ var onglet = "acc";
 
 function goTab(t){
   onglet = t;
-  var ids=["acc","pro","sea","bib","moi"], i, j;
+  var ids=["acc","pro","sea","sav","moi"], i, j;
+  var cible = (t==="bib") ? "pro" : t;          /* la bibliothèque vit sous « Bouger » */
   for(i=0;i<ids.length;i++){
     var b=document.getElementById("t-"+ids[i]);
-    if(b){ if(ids[i]===t){ b.className="on"; } else { b.className=""; } }
+    if(b){ if(ids[i]===cible){ b.className="on"; } else { b.className=""; } }
   }
   dessiner();
   window.scrollTo(0,0);
@@ -420,6 +422,12 @@ function dessiner(){
     else if(onglet==="pro"){ app.innerHTML=ecranProgrammes(); }
     else if(onglet==="sea"){ app.innerHTML=ecranSeances(); }
     else if(onglet==="bib"){ app.innerHTML=ecranBiblio(); }
+    else if(onglet==="sav"){ app.innerHTML=ecranSavoir(); }
+    else if(onglet==="axe"){ app.innerHTML=ecranAxe(); }
+    else if(onglet==="man"){ app.innerHTML=ecranManger(); }
+    else if(onglet==="men"){ app.innerHTML=ecranMensonges(); }
+    else if(onglet==="src"){ app.innerHTML=ecranSources(); }
+    else if(onglet==="resp"){ app.innerHTML=ecranRespiration(); }
     else { app.innerHTML=ecranMoi(); }
   }catch(e){
     app.innerHTML="<div class=\"card\"><p><b>Un souci est survenu :</b> "+e.message+"</p></div>";
@@ -457,6 +465,7 @@ function ecranAccueil(){
     h += "<div class=\"note or\">Prends trente secondes pour dire qui tu es et ce que tu dois "
        + "ménager : l’application écartera d’elle-même les mouvements qui ne te conviennent pas. "
        + "<a href=\"#\" onclick=\"goTab(&#39;moi&#39;);return false;\">Ouvrir mes réglages</a></div>";
+    h += hubSavoir();
     return h;
   }
   var pr=prochaineSeance();
@@ -483,6 +492,7 @@ function ecranAccueil(){
   h += "<div style=\"margin-top:10px\"><button class=\"btn ghost\" onclick=\"goTab(&#39;pro&#39;)\">"
      + "Voir tout le programme</button></div>";
   h += "</div>";
+  h += hubSavoir();
   var f=faiteAujourdhui();
   h += "<div class=\"statgrid\">"
      + "<div class=\"stat\"><b>"+etat.faites.length+"</b><span>séances faites</span></div>"
@@ -518,6 +528,11 @@ function ecranProgrammes(){
   }
   h += "<div class=\"note\">Un programme n’est pas un contrat. Si une séance ne passe pas, "
      + "descends d’un niveau : c’est ce qui permet de continuer pendant des années.</div>";
+  h += "<div class=\"card\"><h3 style=\"margin-top:0\">📚 Les "+EX.length+" exercices</h3>"
+     + "<p class=\"sous\">Tous les mouvements, un par un, avec la position, le geste et ce "
+     + "qu’il faut ménager. Tu n’es pas obligé de suivre un programme pour les regarder.</p>"
+     + "<div style=\"margin-top:14px\"><button class=\"btn ghost\" onclick=\"goTab(&#39;bib&#39;)\">"
+     + "Ouvrir la bibliothèque</button></div></div>";
   return h;
 }
 function choisirProgramme(id){
@@ -654,6 +669,10 @@ function ecranMoi(){
      + "<div class=\"stat\"><b>"+serieJours()+"</b><span>jours d’affilée</span></div>"
      + "<div class=\"stat\"><b>"+minutesTotales()+"</b><span>minutes</span></div></div>"
      + calendrier(35) + "</div>";
+  h += "<div class=\"card\"><h2 class=\"sect\" style=\"margin-top:0\">Mes habitudes du jour</h2>"
+     + "<p class=\"sous\">Cinq gestes, pas plus. Ce ne sont pas des exploits : ce sont les "
+     + "leviers qui se voient dans tes hormones.</p>"
+     + habitudesBloc(true) + "</div>";
   h += "<div class=\"card\"><h2 class=\"sect\" style=\"margin-top:0\">Nos engagements</h2>"
      + "<div class=\"prom\"><div class=\"k\">✓</div><div class=\"v\"><b>Aucune publicité, aucun achat</b>"
      + "<span>Il n’y a rien à acheter ici</span></div></div>"
@@ -668,6 +687,12 @@ function ecranMoi(){
      + "<p class=\"sous\">Ouvre le menu du navigateur, puis « Ajouter à l’écran d’accueil ». "
      + "L’application s’ouvrira comme une vraie application, et fonctionnera même sans connexion.</p>"
      + "</div>";
+  h += "<div class=\"card\"><h2 class=\"sect\" style=\"margin-top:0\">Sources &amp; crédits</h2>"
+     + "<p class=\"sous\">Les explications de cette application viennent du travail d’Irvine K "
+     + "(chaîne « Plus jamais gros »). Chaque mécanisme porte le nom de sa vidéo et son minutage, "
+     + "pour que tu puisses vérifier toi-même.</p>"
+     + "<div style=\"margin-top:14px\"><button class=\"btn ghost\" onclick=\"ouvrirEcran(&#39;src&#39;)\">"
+     + "Voir les sources</button></div></div>";
   h += "<button class=\"btn ghost\" onclick=\"effacerTout()\">Effacer ma progression</button>";
   h += "<footer class=\"foot\">JASAD · جسد — le corps.<br>"
      + "Une application gratuite, sans publicité, sans compte, sans géolocalisation.<br>"
