@@ -180,3 +180,26 @@ C'est ce qui rend l'application difficile à copier : aucune application de spor
 **Contrôles passés le 14 octobre 2026 :** 21 contrôles automatiques — affichage des écrans, minuteur qui descend, enchaînement des séries et des repos, filtre des contre-indications, enregistrement d'une séance, bibliothèque et filtres. Résultat : 21 sur 21, aucune erreur.
 
 **Hébergement :** dépôt `jasad` sur GitHub, publié automatiquement. Aucune facture, aucune limite de durée.
+
+---
+
+## 14. Version 2 — livrée le 15 octobre 2026
+
+L'application ne fait plus seulement **bouger** : elle fait **comprendre**. C'est la fusion du
+travail sur la chaîne du corps dans l'outil.
+
+| Ajout | Détail |
+|---|---|
+| **Module Savoir** | 11 axes hormonaux expliqués (insuline, le trou entre les repas, le foie, le fructose, le tissu graisseux, le cortisol, les mitochondries, l'âge, la dopamine, le corps féminin, le muscle) |
+| **Manger juste** | 6 blocs : les boissons, l'assiette en trois zones, lire une étiquette, les protéines d'ici, la journée type, cinq remplacements |
+| **Le souffle** | exercice guidé 3-5-7 avec compteur animé, et les six gestes de la nuit |
+| **Les mensonges** | 8 phrases fausses démontées, chacune avec l'origine de la correction |
+| **Sources & crédits** | les 10 vidéos utilisées, la règle de crédit en 5 gestes, les limites assumées, l'avertissement médical |
+| **5 habitudes quotidiennes** | eau, marche, assiette, nuit sans écran, souffle — avec série de jours et grille de 14 jours |
+| **Bibliothèque** | déplacée sous « Bouger » ; l'onglet « Savoir » prend sa place dans la barre |
+
+**Contrôles :** 48 contrôles automatiques passés (21 pour la v1, 27 pour le module Savoir),
+aucune erreur JavaScript — vérifiés sur la version locale **et** sur la version publiée.
+
+**Fichiers :** un nouveau fichier `savoir.js` (40 Ko) — le reste de l'application est inchangé,
+donc rien n'est cassé dans ce qui existait.
